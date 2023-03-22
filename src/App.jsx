@@ -18,14 +18,16 @@ function App() {
     const transactionTotal = transaction.total;
     // calculate 2 points for every dollar spent over 100
     if (transactionTotal > 100) {
-      for (let i = 100; i < transactionTotal; i++) {
-        points += 2;
-      }
+      points += (transactionTotal - 100) * 2;
     }
     // calculate 1 point for every dollar spent between 50 and 100
-    for (let i = 50; i < 100; i++) {
-      if (i <= transactionTotal) {
-        points++;
+    if (transactionTotal > 50) {
+      let temp = 0;
+      if (transactionTotal > 100) {
+        temp = 100;
+        points += 50;
+      } else {
+        points += transactionTotal - 50;
       }
     }
     transaction.points = points;
@@ -56,7 +58,6 @@ function App() {
       points: transactionsByMonth[transactionMonth].points
     })
   }
-  console.log(transactionsByMonthArray)
   transactions.forEach(transaction => {
     calculateTransactionPoints(transaction)
   })
